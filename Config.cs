@@ -1,4 +1,5 @@
-﻿using Duende.IdentityServer.Models;
+﻿using Duende.IdentityServer;
+using Duende.IdentityServer.Models;
 
 namespace YTCIdentity;
 
@@ -16,6 +17,8 @@ public static class Config
         {
             new ApiScope("scope1"),
             new ApiScope("scope2"),
+            new ApiScope("api1"),
+            new ApiScope("ytc_api"),
         };
 
     public static IEnumerable<Client> Clients =>
@@ -48,5 +51,27 @@ public static class Config
                 AllowOfflineAccess = true,
                 AllowedScopes = { "openid", "profile", "scope2" }
             },
+            // JavaScript BFF client
+            new Client
+            {
+                ClientId = "bff",
+                ClientSecrets = { new Secret("secret".Sha256()) },
+
+                AllowedGrantTypes = GrantTypes.Code,
+
+                // where to redirect to after login
+                RedirectUris = { "http://localhost:3000/api/auth/callback/duende-identityserver6" },
+
+                // where to redirect to after logout
+                PostLogoutRedirectUris = { "http://localhost:3000/api/auth/callback/duende-identityserver6" },
+
+                AllowedScopes = new List<string>
+                {
+                    IdentityServerConstants.StandardScopes.OpenId,
+                    IdentityServerConstants.StandardScopes.Profile,
+                    "api1",
+                    "ytc_api"
+                }
+            }
         };
 }
