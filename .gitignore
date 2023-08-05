@@ -33,3 +33,4 @@ obj/
 
 #Ignore sqlite db
 *.db
+keys/*
