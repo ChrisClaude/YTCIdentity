@@ -60,6 +60,28 @@ public static class Config
                 AllowedGrantTypes = GrantTypes.Code,
 
                 // where to redirect to after login
+                RedirectUris = { "https://localhost:5003/signin-oidc" },
+
+                // where to redirect to after logout
+                PostLogoutRedirectUris = { "https://localhost:5003/signout-callback-oidc" },
+
+                AllowedScopes = new List<string>
+                {
+                    IdentityServerConstants.StandardScopes.OpenId,
+                    IdentityServerConstants.StandardScopes.Profile,
+                    "api1",
+                    "ytc_api"
+                }
+            },
+            // JavaScript BFF client
+            new Client
+            {
+                ClientId = "ytc_web_client",
+                ClientSecrets = { new Secret("secret".Sha256()) },
+
+                AllowedGrantTypes = GrantTypes.Code,
+
+                // where to redirect to after login
                 RedirectUris = { "http://localhost:3000/api/auth/callback/duende-identityserver6" },
 
                 // where to redirect to after logout
