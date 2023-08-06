@@ -10,6 +10,8 @@ public static class Config
         {
             new IdentityResources.OpenId(),
             new IdentityResources.Profile(),
+            new IdentityResources.Email(),
+            new IdentityResource("avatar", new [] { "profile_image" })
         };
 
     public static IEnumerable<ApiScope> ApiScopes =>
@@ -73,7 +75,7 @@ public static class Config
                     "ytc_api"
                 }
             },
-            // JavaScript BFF client
+            // YTC web client
             new Client
             {
                 ClientId = "ytc_web_client",
@@ -91,8 +93,10 @@ public static class Config
                 {
                     IdentityServerConstants.StandardScopes.OpenId,
                     IdentityServerConstants.StandardScopes.Profile,
+                    IdentityServerConstants.StandardScopes.Email,
                     "api1",
-                    "ytc_api"
+                    "ytc_api",
+                    "avatar"
                 }
             }
         };

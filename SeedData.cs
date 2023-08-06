@@ -15,6 +15,7 @@ public class SeedData
         using (var scope = app.Services.GetRequiredService<IServiceScopeFactory>().CreateScope())
         {
             var context = scope.ServiceProvider.GetService<ApplicationDbContext>();
+            context.Database.EnsureDeleted();
             context.Database.Migrate();
 
             var userMgr = scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
@@ -57,7 +58,8 @@ public class SeedData
                 {
                     UserName = "bob",
                     Email = "BobSmith@email.com",
-                    EmailConfirmed = true
+                    EmailConfirmed = true,
+                    ProfileImage = "https://avatars.githubusercontent.com/u/40432185?v=4"
                 };
                 var result = userMgr.CreateAsync(bob, "Pass123$").Result;
                 if (!result.Succeeded)
@@ -70,7 +72,7 @@ public class SeedData
                             new Claim(JwtClaimTypes.GivenName, "Bob"),
                             new Claim(JwtClaimTypes.FamilyName, "Smith"),
                             new Claim(JwtClaimTypes.WebSite, "http://bob.com"),
-                            new Claim("location", "somewhere")
+                            new Claim("location", "Poznan"),
                         }).Result;
                 if (!result.Succeeded)
                 {
